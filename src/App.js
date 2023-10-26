@@ -3,7 +3,6 @@ import './App.css';
 import { getMovieList, searchMovie } from './api';
 import Navigation from './components/Navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
 import Footer from './components/Footer';
 import Home from './components/Home';
 
