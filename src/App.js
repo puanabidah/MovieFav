@@ -1,61 +1,22 @@
-import { useEffect, useState } from 'react';
-import './App.css';
-import { getMovieList, searchMovie } from './api';
+import Movies from './components/Movies';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import Navigation from './components/Navigation';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Footer from './components/Footer';
-import Home from './components/Home';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const App = () => {
-  const [popularMovies, setPopularMovies] = useState([]);
-  useEffect(() => {
-    getMovieList().then((result) => {
-      setPopularMovies(result);
-    });
-  }, []);
-
-  const PopularMovieList = () => {
-    return popularMovies.map((movie, i) => {
-      return (
-        <div className="Movie-wrapper" key={i}>
-          <img
-            className="Movie-image"
-            src={`${process.env.REACT_APP_BASEIMGURL}/${movie.poster_path}`}
-            alt="poster-film"
-          />
-          <div className="Movie-title">{movie.title}</div>
-          <div className="Movie-date">Release date: {movie.release_date}</div>
-          <div className="Movie-rate"> Rating: {movie.vote_average}</div>
-        </div>
-      );
-    });
-  };
-
-  const search = async (q) => {
-    if (q.length > 3) {
-      const query = await searchMovie(q);
-      setPopularMovies(query.results);
-    }
-  };
-
   return (
-    <div className="App">
+    <BrowserRouter>
       <Navigation />
-      <Home />
-      <header className="App-header" id="movies">
-        <h1>TRENDING MOVIES</h1>
-        <input
-          type="text"
-          placeholder="cari film kesayangan.."
-          className="Movie-search rounded"
-          onChange={({ target }) => search(target.value)}
-        />
-        <div className="Movie-container">
-          <PopularMovieList />
-        </div>
-      </header>
-      <Footer />
-    </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
